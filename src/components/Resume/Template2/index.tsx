@@ -170,53 +170,16 @@ export const Template2: React.FC<Props> = props => {
           )}
         </div>
         {/* </Wrapper> */}
-        {/* 教育背景 */}
-        {educationList?.length ? (
-          <Wrapper
-            // title=<FormattedMessage id="教育背景" />
-            title={titleNameMap.educationList}
-            className="section section-education"
-            color={theme.color}
-          >
-            {educationList.map((education, idx) => {
-              const [start, end] = education.edu_time;
-              return (
-                <div key={idx.toString()} className="education-item">
-                  <div>
-                    <span>
-                      <b>{education.school}</b>
-                      <span style={{ marginLeft: '8px' }}>
-                        {education.major && <span>{education.major}</span>}
-                        {education.academic_degree && (
-                          <span
-                            className="sub-info"
-                            style={{ marginLeft: '4px' }}
-                          >
-                            ({education.academic_degree})
-                          </span>
-                        )}
-                      </span>
-                    </span>
-                    <span className="sub-info" style={{ float: 'right' }}>
-                      {start}
-                      {end ? ` ~ ${end}` : ' 至今'}
-                    </span>
-                  </div>
-                </div>
-              );
-            })}
-          </Wrapper>
-        ) : null}
         <Wrapper
           title={<FormattedMessage id="自我介绍" />}
           className="section section-aboutme"
           color={theme.color}
         >
           {aboutme.map((d, idx) => (
-            <div key={`${idx}`}>{d}</div>
+            <div key={`${idx}`} dangerouslySetInnerHTML={{ __html: d }}></div>
           ))}
         </Wrapper>
-        {workList?.length ? (
+        {/* {workList?.length ? (
           <Wrapper
             // title=<FormattedMessage id="个人作品" />
             title={titleNameMap.workList}
@@ -240,7 +203,7 @@ export const Template2: React.FC<Props> = props => {
               );
             })}
           </Wrapper>
-        ) : null}
+        ) : null} */}
         {/* 专业技能 */}
         {skillList?.length ? (
           <Wrapper
@@ -323,7 +286,10 @@ export const Template2: React.FC<Props> = props => {
                         {end ? ` ~ ${end}` : <FormattedMessage id=" 至今" />}
                       </span>
                     </div>
-                    <div className="work-description">{work.work_desc}</div>
+                    <div
+                      className="work-description"
+                      dangerouslySetInnerHTML={{ __html: work.work_desc }}
+                    ></div>
                   </div>
                 ) : null;
               })}
@@ -342,7 +308,14 @@ export const Template2: React.FC<Props> = props => {
                 project ? (
                   <div className="section-item" key={idx.toString()}>
                     <div className="section-info">
-                      <b className="info-name">
+                      <b
+                        className="info-name"
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => {
+                          project.project_link &&
+                            window.open(project.project_link);
+                        }}
+                      >
                         {project.project_name}
                         <span className="info-time">
                           {project.project_time}
@@ -370,6 +343,43 @@ export const Template2: React.FC<Props> = props => {
                 ) : null
               )}
             </div>
+          </Wrapper>
+        ) : null}
+        {/* 教育背景 */}
+        {educationList?.length ? (
+          <Wrapper
+            // title=<FormattedMessage id="教育背景" />
+            title={titleNameMap.educationList}
+            className="section section-education"
+            color={theme.color}
+          >
+            {educationList.map((education, idx) => {
+              const [start, end] = education.edu_time;
+              return (
+                <div key={idx.toString()} className="education-item">
+                  <div>
+                    <span>
+                      <b>{education.school}</b>
+                      <span style={{ marginLeft: '8px' }}>
+                        {education.major && <span>{education.major}</span>}
+                        {education.academic_degree && (
+                          <span
+                            className="sub-info"
+                            style={{ marginLeft: '4px' }}
+                          >
+                            ({education.academic_degree})
+                          </span>
+                        )}
+                      </span>
+                    </span>
+                    <span className="sub-info" style={{ float: 'right' }}>
+                      {start}
+                      {end ? ` ~ ${end}` : ' 至今'}
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
           </Wrapper>
         ) : null}
       </div>
